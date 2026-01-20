@@ -62,12 +62,13 @@ public class Libro {
         Libro libro = (Libro) o;
         return isbn == libro.isbn;
     }
-    // -- el hashCode no se va a ver
-    /* @Override
+
+    // -- el hashCode no se va a ver pero no se borra
+    @Override
     public int hashCode() {
         return Objects.hashCode(isbn);
     }
-    */
+
 
     // --- toString ---
     @Override
