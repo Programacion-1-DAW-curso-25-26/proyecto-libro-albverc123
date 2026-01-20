@@ -87,5 +87,6 @@ public class Libro {
     void mostrarInfo() {
         System.out.println("El libro '" + titulo + "' de " + autor + " tiene " + numPaginas + " páginas, con una valoración de " + valoracion + " sobre 10.");
     }
+
 }
 
