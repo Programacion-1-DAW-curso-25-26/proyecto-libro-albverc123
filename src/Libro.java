@@ -63,7 +63,6 @@ public class Libro {
         return isbn == libro.isbn;
     }
 
-
     // -- el hashCode no se va a ver pero no se borra
     @Override
     public int hashCode() {
