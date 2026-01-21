@@ -22,7 +22,7 @@ public class Libro {
     private int valoracion;
     private int isbn;
 
-   /*
+
    public void setTitulo(String titulo) {
        this.titulo = titulo;
    }
@@ -38,7 +38,26 @@ public class Libro {
    public void setValoracion(int valoracion) {
        this.valoracion = valoracion;
    }
-    */
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public int getNumPaginas() {
+        return numPaginas;
+    }
+
+    public int getValoracion() {
+        return valoracion;
+    }
+
+    public int getIsbn() {
+        return isbn;
+    }
 
     // ------------------------------
 
@@ -74,11 +93,11 @@ public class Libro {
     @Override
     public String toString() {
         return "Libro{" +
-                "titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", numPaginas=" + numPaginas +
-                ", valoracion=" + valoracion +
-                ", isbn=" + isbn +
+                "titulo --> '" + titulo + '\'' +
+                ", autor --> '" + autor + '\'' +
+                ", numPaginas --> " + numPaginas +
+                ", valoracion --> " + valoracion +
+                ", isbn --> " + isbn +
                 '}';
     }
 

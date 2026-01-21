@@ -1,6 +1,11 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
+
+// ===========================
+// ===== MIRAR PARA EXAM =====
+// ===========================
 
 public class Main {
     public static void main(String[] args) {
@@ -58,50 +63,107 @@ public class Main {
 //
 //
         Scanner sc = new Scanner(System.in);
-        int opcion;
+        char opcion;
         do {
             System.out.println(" --- Menú Biblioteca--- \n" +
-                    "1. Añadir libro.\n" +
-                    "2. Buscar libro por isbn." +
-                    "3. Eliminar libro por isbn." +
-                    "4. Salir.");
-            opcion = sc.nextInt();
+                    "a. Añadir libro.\n" +
+                    "b. Mostrar todos.\n" +
+                    "c. Buscar libro por isbn.\n" +
+                    "d. Eliminar libro por isbn.\n" +
+                    "e. Vaciar lista.\n" +
+                    "f. Salir.");
+            System.out.println("Elige una opción: ");
+            opcion = sc.nextLine().toLowerCase().charAt(0);
             switch (opcion) {
-                case 1:
+                case 'a':
                     anyadirLibro(biblioteca, sc);
                     break;
-                case 2:
+                case 'b':
+                    mostrarTodos(biblioteca);
+                    break;
+                case 'c':
                     buscarLibro(biblioteca, sc);
                     break;
-                case 3:
+                case 'd':
                     eliminarLibro(biblioteca, sc);
                     break;
-                case 4:
+                case 'e':
+                    vaciarLista(biblioteca);
+                    break;
+                case 'f':
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción incorrecta");
                     break;
             }
-        } while (opcion != 4);
+        } while (opcion != 'f');
+    }
+
+    private static void vaciarLista(ArrayList<Libro> biblioteca) {
+        int contador = biblioteca.size();
+        biblioteca.clear();
+        System.out.println("Borradoes " + contador + " libros de la bilbioteca");
+    }
+
+    private static void mostrarTodos(ArrayList<Libro> biblioteca) {
+        System.out.println(" --- Lista de libros completo ---");
+        for (Libro libro : biblioteca) {
+            System.out.println(libro); //  o  libro.toString()
+            // o libro.mostrarInfo();
+            System.out.println("-----------------------------------");
+        }
     }
 
     private static void buscarLibro(ArrayList<Libro> biblioteca, Scanner sc) {
         System.out.println("--- Buscar libro ---");
-        System.out.println("1 - para buscar con contains, y 2 - para buscar con iterator");
+        System.out.println("1 - para buscar con contains\n" +
+                "2 - para buscar con iterator");
         int opcion1 = sc.nextInt();
+        System.out.println("Dime el ISBN: ");
+        int isbn = sc.nextInt();
+        sc.nextLine();
+        if (opcion1 == 1) {
+            // opcion con contains, si solo se quiere sabe rque existe sirve esta opcion pero si se quiere mostrar su infor NO SIRVE esta opcion
+            Libro buscar = new Libro("","",0,0,isbn);
+            if (biblioteca.contains(buscar)) {
+                System.out.println("Encontrado el libro");
+            }
+            // Otra opcion con for-each
+            for (Libro libro : biblioteca) {
+                if(libro.getIsbn() == isbn) {
+                    System.out.println("Encontrado " + libro);
+                }
+            }
+        } else {
+            Iterator<Libro> it = biblioteca.iterator();
+            Libro libro;
+            while (it.hasNext()) {
+                libro = it.next();
+                if (libro.getIsbn() == isbn) {
+                    System.out.println(libro); // o libro.toString();
+                }
+            }
+        }
     }
 
     private static void eliminarLibro(ArrayList<Libro> biblioteca, Scanner sc) {
         System.out.println("--- Eliminar libro ---");
-        System.out.println("1 - para eliminar con remove, y 2 - para eliminar con recorrido");
-        int opcion2 = sc.nextInt();
-        if (opcion2 == 1) {
-            System.out.println("TODO");
-        } else {
-            System.out.println("TODO");
+        System.out.println("Dime el ISBN: ");
+        int isbn = sc.nextInt();
+        sc.nextLine();
+
+        Iterator<Libro> it = biblioteca.iterator();
+        Libro libro;
+        while (it.hasNext()) {
+            libro = it.next();
+            if (libro.getIsbn() == isbn) {
+                it.remove();
+                System.out.println("Libro con ISBN" + isbn + " se ha borrado correctamente");
+            }
         }
     }
+
 
     private static void anyadirLibro(ArrayList<Libro> biblioteca, Scanner sc) {
         System.out.println("--- Añadir libro ---");
@@ -109,13 +171,15 @@ public class Main {
         String titulo = sc.nextLine();
         System.out.println("Dime el autor: ");
         String autor = sc.nextLine();
-        System.out.println("Dime el isbn: ");
-        int isbn = sc.nextInt();
         System.out.println("Dime el numero de paginas: ");
         int numPaginas = sc.nextInt();
         System.out.println("Dime la valoracion: ");
         int valoracion = sc.nextInt();
+        System.out.println("Dime el isbn: ");
+        int isbn = sc.nextInt();
+        sc.nextLine();
 
         Libro libro = new Libro(titulo, autor, numPaginas, valoracion, isbn);
+        biblioteca.add(libro);
     }
 }
