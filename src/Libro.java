@@ -17,17 +17,19 @@ public class Libro {
     // --- ATRIBUTOS PRIVADOS ---
 
     private String titulo;
-    private String autor;
+    // private String autor;
+    private Autor autor;
     private int numPaginas;
     private int valoracion;
     private int isbn;
+    private String idioma;
 
 
    public void setTitulo(String titulo) {
        this.titulo = titulo;
    }
 
-   public void setAutor(String autor) {
+   public void setAutor(Autor autor) {
        this.autor = autor;
    }
 
@@ -43,7 +45,7 @@ public class Libro {
         return titulo;
     }
 
-    public String getAutor() {
+    public Autor getAutor() {
         return autor;
     }
 
@@ -61,15 +63,20 @@ public class Libro {
 
     // ------------------------------
 
-    // --- CONDUCTORES ---
+    // --- CONSTRUCTORES ---
 
-    public Libro(String titulo, String autor, int numPaginas, int valoracion, int isbn) {
+    public Libro(String titulo, Autor autor, int numPaginas, int valoracion, int isbn) {
         this.titulo = titulo;
         this.autor = autor;
         this.numPaginas = numPaginas;
         this.valoracion = valoracion;
         this.isbn = isbn;
     }
+
+    private Libro(){
+
+    }
+
     // ------------------------------
 
     // --- MÁS MÉTODOS ---

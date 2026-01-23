@@ -46,7 +46,7 @@ public class Main {
 //        }
 //        System.out.println();
 //
-        ArrayList<Libro> biblioteca = new ArrayList<>(); // el ArrayList mira el equals para comparar
+//        ArrayList<Libro> biblioteca = new ArrayList<>(); // el ArrayList mira el equals para comparar
 //        biblioteca.add(libro1);
 //        // biblioteca.add(libro2);
 //
@@ -64,6 +64,9 @@ public class Main {
 //
         Scanner sc = new Scanner(System.in);
         char opcion;
+        ArrayList<Libro> biblioteca = new ArrayList<>();
+        ArrayList<Autor> autores = new ArrayList<>();
+
         do {
             System.out.println(" --- Menú Biblioteca--- \n" +
                     "a. Añadir libro.\n" +
@@ -76,7 +79,7 @@ public class Main {
             opcion = sc.nextLine().toLowerCase().charAt(0);
             switch (opcion) {
                 case 'a':
-                    anyadirLibro(biblioteca, sc);
+                    anyadirLibro(biblioteca, sc, autores);
                     break;
                 case 'b':
                     mostrarTodos(biblioteca);
@@ -117,30 +120,48 @@ public class Main {
 
     private static void buscarLibro(ArrayList<Libro> biblioteca, Scanner sc) {
         System.out.println("--- Buscar libro ---");
-        System.out.println("1 - para buscar con contains\n" +
-                "2 - para buscar con iterator");
+        System.out.println("1 - para buscar isbn con contains\n" +
+                "2 - para buscar isbn con iterator\n" +
+                "3 - buscar por autor\n");
         int opcion1 = sc.nextInt();
-        System.out.println("Dime el ISBN: ");
-        int isbn = sc.nextInt();
-        sc.nextLine();
         if (opcion1 == 1) {
+            System.out.println("Dime el ISBN: ");
+            int isbn = sc.nextInt();
             // opcion con contains, si solo se quiere sabe rque existe sirve esta opcion pero si se quiere mostrar su infor NO SIRVE esta opcion
-            Libro buscar = new Libro("","",0,0,isbn);
+            System.out.println("Dime el nombre del autor:");
+            String nombreAutor = sc.nextLine();
+            System.out.println("Dime la nacionalidad del autor:");
+            String nacienAutor = sc.nextLine();
+            Autor autorLib = new Autor(nombreAutor, nacienAutor);
+            Libro buscar = new Libro("",autorLib,0,0,isbn);
             if (biblioteca.contains(buscar)) {
                 System.out.println("Encontrado el libro");
             }
             // Otra opcion con for-each
             for (Libro libro : biblioteca) {
-                if(libro.getIsbn() == isbn) {
+                if (libro.getIsbn() == isbn) {
                     System.out.println("Encontrado " + libro);
                 }
             }
-        } else {
+        } else if (opcion1 == 2) {
+            System.out.println("Dime el ISBN: ");
+            int isbn = sc.nextInt();
             Iterator<Libro> it = biblioteca.iterator();
             Libro libro;
             while (it.hasNext()) {
                 libro = it.next();
                 if (libro.getIsbn() == isbn) {
+                    System.out.println(libro); // o libro.toString();
+                }
+            }
+        } else {
+            System.out.println("Dime el nombre del autor: ");
+            String nomAutor = sc.nextLine();
+            Iterator<Libro> it = biblioteca.iterator();
+            Libro libro;
+            while (it.hasNext()) {
+                libro = it.next();
+                if (libro.getAutor().getNombre().equals(nomAutor)) {
                     System.out.println(libro); // o libro.toString();
                 }
             }
@@ -165,12 +186,18 @@ public class Main {
     }
 
 
-    private static void anyadirLibro(ArrayList<Libro> biblioteca, Scanner sc) {
+    private static void anyadirLibro(ArrayList<Libro> biblioteca, Scanner sc, ArrayList<Autor> autores) {
         System.out.println("--- Añadir libro ---");
         System.out.println("Dime el nombre: ");
         String titulo = sc.nextLine();
-        System.out.println("Dime el autor: ");
-        String autor = sc.nextLine();
+
+        System.out.println("Dime el nombre del autor: ");
+        String nombreAutor = sc.nextLine();
+        System.out.println("Dime el nombre del autor: ");
+        String nacionAutor = sc.nextLine();
+        Autor autorLib = crearAutor(nombreAutor, nacionAutor, biblioteca);
+        autores.add(autorLib);
+
         System.out.println("Dime el numero de paginas: ");
         int numPaginas = sc.nextInt();
         System.out.println("Dime la valoracion: ");
@@ -179,7 +206,22 @@ public class Main {
         int isbn = sc.nextInt();
         sc.nextLine();
 
-        Libro libro = new Libro(titulo, autor, numPaginas, valoracion, isbn);
+        Libro libro = new Libro(titulo, autorLib, numPaginas, valoracion, isbn);
         biblioteca.add(libro);
+    }
+
+    private static Autor crearAutor(String nombreAutor, String nacionAutor, ArrayList<Libro> biblioteca) {
+        boolean existeAutor = false;
+        Autor autorLib = null;
+        for (Libro libro : biblioteca) {
+            if (libro.getAutor().getNombre().equals(nombreAutor) && libro.getAutor().getNacionalidad().equals(nacionAutor)) {
+                existeAutor = true;
+                autorLib = libro.getAutor();
+            }
+        }
+        if (!existeAutor) {
+            autorLib = new Autor(nombreAutor, nacionAutor);
+        }
+        return autorLib;
     }
 }
